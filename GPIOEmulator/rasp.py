@@ -5,20 +5,11 @@ import threading
 from datetime import datetime
 import winsound
 
-
 from EmulatorGUI import GPIO, App
-
-_app_instance = None
-
-def get_app():
-    global _app_instance
-    if _app_instance is None:
-        _app_instance = App()
-    return _app_instance
 
 BUZZER_PIN = 24
 
-app = get_app()
+app = App()
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -32,6 +23,7 @@ def control_buzzer():
 def activate_buzzer():
     threading.Thread(target=winsound.Beep, args=(1000, 500), daemon=True).start()
     buzzer_thread = threading.Thread(target=control_buzzer, daemon=True).start()
+
 camera = cv2.VideoCapture(0)
 ret, frame1 = camera.read()
 ret, frame2 = camera.read()
